@@ -110,9 +110,8 @@ const useStyles = makeStyles((theme) => ({
     }
 
     const generateColor=  ()=>{
-      window.localStorage.removeItem("colors");
       var ColorArr = [] ; 
-      for(let i=0 ; i<=28 ; i++){
+      for(let i=0 ; i<28 ; i++){
         var newColor = '#' +  Math.random().toString(16).substr(-6);
         ColorArr.push(newColor); 
       }
