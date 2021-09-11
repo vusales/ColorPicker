@@ -116,8 +116,8 @@ const useStyles = makeStyles((theme) => ({
         ColorArr.push(newColor); 
       }
       console.log("RandomColor", ColorArr);
-      window.localStorage.setItem("colors" , JSON.stringify(ColorArr));
       setColor(colors.concat(ColorArr));
+      window.localStorage.setItem("colors" , JSON.stringify(colors));
     }
 
   return (
