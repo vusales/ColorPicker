@@ -1,4 +1,5 @@
 {
+  "homepage": "http://vusales.github.io/ColorPicker",
   "name": "color",
   "version": "0.1.0",
   "private": true,
@@ -17,9 +18,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
