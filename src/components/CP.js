@@ -1,4 +1,4 @@
-import React from "react";
+import React  from "react";
 import { SketchPicker } from 'react-color';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
@@ -39,13 +39,13 @@ function CP (props) {
             <Button 
                 onClick={saveColor}  
                 style={{
-                    "background-color": background ,
+                    "backgroundColor": background ,
                     "margin":10 , 
                     "width":"90%" ,
                     "padding":7 , 
                     "color": "white",
-                    "font-weight": "bold" , 
-                    "font-size": 15
+                    "fontWeight": "bold" , 
+                    "fontSize": 15
             }}>ADD COLOR</Button>
         </React.Fragment>
     )

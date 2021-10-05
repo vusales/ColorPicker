@@ -11,9 +11,12 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Button from '@material-ui/core/Button';
+import {TextField ,} from '@material-ui/core/';
+// import DeleteIcon from '@mui/icons-material/Delete';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ColorPicker from "./components/ColorPicker";
 import CP from "./components/CP";
+
 
 const drawerWidth = 340;
 
@@ -72,14 +75,29 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  saveDiv: {
+    display:"flex" , 
+    alignSelf:"flex-end" , 
+    alignItems:"center" , 
+    marginLeft: "auto" , 
+    marginBottom: 10, 
+  }
 }));
+
   function App() {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false); 
     const [colors, setColor] = React.useState(JSON.parse(localStorage.getItem("colors")) || []);
     const [cubnames, setName] = React.useState(JSON.parse(localStorage.getItem("cubnames")) || []);
+    const [randomVal, setRandomVal] = React.useState(false); 
 
+    React.useEffect(()=>{
+      
+      window.localStorage.setItem("colors" , JSON.stringify(colors));
+      window.localStorage.setItem("cubnames" , JSON.stringify(cubnames));
+
+    }, [colors], [cubnames])
 
     const handleDrawerOpen = () => {
       setOpen(true);
@@ -95,11 +113,11 @@ const useStyles = makeStyles((theme) => ({
             return ; 
           }
       }
-      var a = window.localStorage.setItem("colors" , JSON.stringify(colors));
-      var b = window.localStorage.setItem("cubnames" , JSON.stringify(cubnames));
 
       setColor(colors.concat(color));
       setName(cubnames.concat(cubname));
+      window.localStorage.setItem("colors" , JSON.stringify(colors));
+      window.localStorage.setItem("cubnames" , JSON.stringify(cubnames));
     }
 
     const ClearePal = () => {
@@ -109,13 +127,19 @@ const useStyles = makeStyles((theme) => ({
 
     }
 
-    const generateColor=  ()=>{
+    const generateColor=()=>{
+      if(randomVal){
+        setColor(colors.splice(-28, 28));
+        console.log(colors); 
+        window.localStorage.setItem("colors" , JSON.stringify(colors));
+        setRandomVal(false) ; 
+      }
       var ColorArr = [] ; 
       for(let i=0 ; i<28 ; i++){
         var newColor = '#' +  Math.random().toString(16).substr(-6);
         ColorArr.push(newColor); 
       }
-      console.log("RandomColor", ColorArr);
+      setRandomVal(true) ;
       setColor(colors.concat(ColorArr));
       window.localStorage.setItem("colors" , JSON.stringify(colors));
     }
@@ -129,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -139,9 +163,25 @@ const useStyles = makeStyles((theme) => ({
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap display="flex">
             Color Picker
           </Typography>
+          {/* <div 
+          className={classes.saveDiv}
+          >
+            <TextField 
+            variant="outlined" 
+              label="Enter a pallete name"
+              size="small"
+            />
+            <Button 
+              // onClick={} 
+              variant = "contained"
+              color = "secondary" 
+              size= "small"
+              style={{marginLeft:10,padding:7.5}}
+            >Save Pallete</Button>
+          </div> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -184,7 +224,7 @@ const useStyles = makeStyles((theme) => ({
               variant="contained" 
               color="primary"
               size= "small"
-              style={{"margin-left":5}}
+              style={{"marginLeft":5}}
               onClick={generateColor}
               >
               Random Color
@@ -199,14 +239,14 @@ const useStyles = makeStyles((theme) => ({
         className={clsx(classes.content, {
           [classes.contentShift]: open,
         })}
-        style={{"padding-left":35}}
+        style={{"paddingLeft":35}}
       >
             <div className={classes.drawerHeader} />
            <div
            style={{
              "display":"flex" ,
-             "flex-wrap": "wrap",
-             "align-self": "center", 
+             "flexWrap": "wrap",
+             "alignSelf": "center", 
            }}
            >
            {colors[0]? 
@@ -214,23 +254,28 @@ const useStyles = makeStyles((theme) => ({
               return(
                 <div 
                   key={`${index}`} 
-                  style={{"background-color":`${color}` , 
+                  style={{"backgroundColor":`${color}` , 
                       "width":160 , 
                       "height":150 , 
                       "padding":10 , 
-                      "font-size":18 , 
-                      "font-weight":"bold" ,
+                      "fontSize":18 , 
+                      "fontWeight":"bold" ,
                   }}
                 >
-                  {color}
+                  <div>{color}</div>
+                  <div>
+                  {/* <IconButton aria-label="delete" size="small">
+                    <DeleteIcon fontSize="small" />
+                  </IconButton> */}
+                  </div>
                 </div>
               );
            }):
            <div  
               style={{
                 "padding":10 , 
-                "font-size":25 , 
-                "font-weight":"bold" , 
+                "fontSize":25 , 
+                "fontWeight":"bold" , 
                 "color":"lightgray",
                 "textAlign":"center",
               }}

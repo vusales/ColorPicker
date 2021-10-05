@@ -50,7 +50,7 @@ class ColorPicker extends React.Component{
                 <button 
                 onClick={this.saveColor}  
                 style={{
-                    "background-color":this.state.background ,
+                    "backgroundColor":this.state.background ,
                     "margin":10 , 
                     "width":"90%" 
                 }}>ADD</button>
