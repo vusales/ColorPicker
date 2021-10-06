@@ -8,13 +8,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon  from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Button from '@material-ui/core/Button';
-import {TextField ,} from '@material-ui/core/';
-// import DeleteIcon from '@mui/icons-material/Delete';
+import {TextField} from '@material-ui/core/';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ColorPicker from "./components/ColorPicker";
+// import ColorPicker from "./components/ColorPicker";   classbased component same with CP.js
 import CP from "./components/CP";
 
 
@@ -91,6 +90,8 @@ const useStyles = makeStyles((theme) => ({
     const [colors, setColor] = React.useState(JSON.parse(localStorage.getItem("colors")) || []);
     const [cubnames, setName] = React.useState(JSON.parse(localStorage.getItem("cubnames")) || []);
     const [randomVal, setRandomVal] = React.useState(false); 
+    const[saveInp , setSaveInp]= React.useState("");
+    const[pallets , setPallets]= React.useState([]);
 
     React.useEffect(()=>{
       
@@ -130,11 +131,10 @@ const useStyles = makeStyles((theme) => ({
     const generateColor=()=>{
       if(randomVal){
         setColor(colors.splice(-28, 28));
-        console.log(colors); 
         window.localStorage.setItem("colors" , JSON.stringify(colors));
         setRandomVal(false) ; 
       }
-      var ColorArr = [] ; 
+      var ColorArr = []; 
       for(let i=0 ; i<28 ; i++){
         var newColor = '#' +  Math.random().toString(16).substr(-6);
         ColorArr.push(newColor); 
@@ -143,6 +143,60 @@ const useStyles = makeStyles((theme) => ({
       setColor(colors.concat(ColorArr));
       window.localStorage.setItem("colors" , JSON.stringify(colors));
     }
+
+
+    const savePallete = (e)=> {
+      var value = e.target.value ; 
+      setSaveInp(value) ; 
+
+    }
+
+    const savePalleteButtonClick = ()=> {
+      var colorsArray = JSON.parse(window.localStorage.getItem("colors"));
+      var cubNamesArray =  JSON.parse(window.localStorage.getItem("cubnames"));
+      var palleteName = saveInp ; 
+      var pallete = {
+        colorsArray , 
+        cubNamesArray , 
+        palleteName
+      }
+      console.log("pallets", pallets) ; 
+      var PalletsArray = pallets ;
+      var result = PalletsArray.concat(pallete); 
+      setPallets(result);
+      console.log("pallets22", pallets) ; 
+      console.log("PalletsArray", PalletsArray) ; 
+
+
+      window.localStorage.setItem("pallets", JSON.stringify(pallets));
+      window.localStorage.removeItem("colors");
+      window.localStorage.removeItem("cubnames");
+      setColor([]); 
+      setName([]);
+      setSaveInp(""); 
+    }
+
+    var deleteCubes = (e) => {
+      // console.log(e.target.parentNode.previousSibling.innerText); 
+      if(e.target.parentNode.previousSibling === null ){
+       return
+      }
+      var colorArr = colors ; 
+      var result = colorArr.filter((element)=> element !== e.target.parentNode.previousSibling.innerText);
+      setColor(result); 
+    }
+
+    var CopyColor = (color) => {
+      
+      console.log("index" , color) ;
+      navigator.clipboard.writeText(color).then(function() {
+        console.log('Async: Copying to clipboard was successful!');
+      }, function(err) {
+        console.error('Async: Could not copy text: ', err);
+      });
+  
+    }
+
 
   return (
     <div className={classes.root}>
@@ -166,22 +220,24 @@ const useStyles = makeStyles((theme) => ({
           <Typography variant="h6" noWrap display="flex">
             Color Picker
           </Typography>
-          {/* <div 
+          <div 
           className={classes.saveDiv}
           >
             <TextField 
             variant="outlined" 
               label="Enter a pallete name"
               size="small"
+              value={saveInp}
+              onChange={savePallete}
             />
             <Button 
-              // onClick={} 
+              onClick={savePalleteButtonClick} 
               variant = "contained"
               color = "secondary" 
               size= "small"
               style={{marginLeft:10,padding:7.5}}
             >Save Pallete</Button>
-          </div> */}
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -260,14 +316,56 @@ const useStyles = makeStyles((theme) => ({
                       "padding":10 , 
                       "fontSize":18 , 
                       "fontWeight":"bold" ,
+                      display:"flex" , 
+                      alignItems:"flex-start" , 
+                      justifyContent:"space-between" , 
                   }}
                 >
-                  <div>{color}</div>
-                  <div>
-                  {/* <IconButton aria-label="delete" size="small">
-                    <DeleteIcon fontSize="small" />
-                  </IconButton> */}
+                  <div
+                   style={{
+                   "width":75, 
+                   "height":133, 
+                   display:"flex" , 
+                   flexDirection:"column" , 
+                   alignItems:"flex-start" , 
+                   justifyContent:"space-between" , 
+                  }}
+                  >
+                        <div>{color}</div>
+
+                        <Button
+                        onClick={deleteCubes}
+                        // color="secondary"
+                        variant="outlined"
+                        size="small"
+                        style={{fontSize:15}}
+                        >	⛌ </Button>
                   </div>
+
+
+                  <div
+                   style={{
+                   "width":75, 
+                   "height":133, 
+                   display:"flex" , 
+                   flexDirection:"column" , 
+                   alignItems:"flex-end" , 
+                   justifyContent:"flex-end" , 
+                  }}
+                  >
+                        <Button
+                        onClick={CopyColor(color=`${color}`)}
+                        // color="secondary"
+                        variant="outlined"
+                        size="small"
+                        style={{fontSize:7}}
+                        >
+                         <p>copy</p>
+                        </Button>
+                  </div>
+
+
+
                 </div>
               );
            }):
