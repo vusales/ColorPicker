@@ -15,6 +15,7 @@ import {TextField} from '@material-ui/core/';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 // import ColorPicker from "./components/ColorPicker";   classbased component same with CP.js
 import CP from "./components/CP";
+import Alert from '@mui/material/Alert';
 
 
 const drawerWidth = 340;
@@ -80,7 +81,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems:"center" , 
     marginLeft: "auto" , 
     marginBottom: 10, 
-  }
+  },
+ 
 }));
 
   function App() {
@@ -97,8 +99,10 @@ const useStyles = makeStyles((theme) => ({
       
       window.localStorage.setItem("colors" , JSON.stringify(colors));
       window.localStorage.setItem("cubnames" , JSON.stringify(cubnames));
+      window.localStorage.setItem("pallets" , JSON.stringify(pallets));
 
-    }, [colors], [cubnames])
+
+    }, [colors], [pallets]); 
 
     const handleDrawerOpen = () => {
       setOpen(true);
@@ -177,26 +181,27 @@ const useStyles = makeStyles((theme) => ({
     }
 
     var deleteCubes = (e) => {
-      // console.log(e.target.parentNode.previousSibling.innerText); 
-      if(e.target.parentNode.previousSibling === null ){
+
+      console.log(e.target.value)
+      if(e.target.value === null ){
        return
       }
-      var colorArr = colors ; 
-      var result = colorArr.filter((element)=> element !== e.target.parentNode.previousSibling.innerText);
+      var colorArr = colors; 
+      var result = colorArr.filter((element)=> element !== e.target.value);
       setColor(result); 
     }
 
-    var CopyColor = (color) => {
-      
-      console.log("index" , color) ;
-      navigator.clipboard.writeText(color).then(function() {
-        console.log('Async: Copying to clipboard was successful!');
+    var CopyColor = (e) => {
+      navigator.clipboard.writeText(e.target.value).then(function(){
+        // console.log('Async: Copying to clipboard was successful!');
+       return(
+        <Alert variant="outlined" severity="success">
+          Color code has been copied!
+        </Alert>); 
+
       }, function(err) {
         console.error('Async: Could not copy text: ', err);
       });
-
-      // kldsjkfsk
-  
     }
 
 
@@ -239,6 +244,14 @@ const useStyles = makeStyles((theme) => ({
               size= "small"
               style={{marginLeft:10,padding:7.5}}
             >Save Pallete</Button>
+
+            <Button 
+              // onClick={savePalleteButtonClick} 
+              variant = "contained"
+              color = "primary" 
+              size= "small"
+              style={{marginLeft:10,padding:7.5}}
+            >All Palletes</Button>
           </div>
         </Toolbar>
       </AppBar>
@@ -333,15 +346,34 @@ const useStyles = makeStyles((theme) => ({
                    justifyContent:"space-between" , 
                   }}
                   >
-                        <div>{color}</div>
+                        <div >{color}</div>
 
-                        <Button
+                        {/* <Button
                         onClick={deleteCubes}
                         // color="secondary"
                         variant="outlined"
                         size="small"
                         style={{fontSize:15}}
-                        >	⛌ </Button>
+                        >	⛌ </Button> */}
+
+
+                        <button
+                        onClick={deleteCubes}
+                        value={color}
+                        style={{
+                          fontSize:13,
+                          backgroundColor:"transparent" , 
+                          border:".1px solid black" , 
+                          outline:"none",
+                          borderRadius:3,
+                          width:65,
+                          height:33, 
+                          cursor:"pointer",
+                        }}
+                        >
+                        ⛌ 
+                        </button>
+
                   </div>
 
 
@@ -355,15 +387,24 @@ const useStyles = makeStyles((theme) => ({
                    justifyContent:"flex-end" , 
                   }}
                   >
-                        <Button
-                        onClick={CopyColor(color=`${color}`)}
-                        // color="secondary"
+                        <button
+                        onClick={CopyColor}
+                        value={color}
                         variant="outlined"
                         size="small"
-                        style={{fontSize:7}}
+                        style={{
+                          fontSize:13,
+                          backgroundColor:"transparent" , 
+                          border:".1px solid black" , 
+                          outline:"none",
+                          borderRadius:3,
+                          width:65,
+                          height:33,
+                          cursor:"pointer",
+                        }}
                         >
-                         <p>copy</p>
-                        </Button>
+                        copy
+                        </button>
                   </div>
 
 
