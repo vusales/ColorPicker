@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from "./App";
 import Allpallets from "./components/Allpallets"; 
-import {BrowserRouter , Route, Switch } from "react-router-dom" ; 
+import {BrowserRouter , Route, Switch , HashRouter } from "react-router-dom" ; 
 
 
 
@@ -16,12 +16,12 @@ import {BrowserRouter , Route, Switch } from "react-router-dom" ;
  
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <Switch>
         <Route exact path="/" component={App} />
         <Route exact path="/allPallets" component={Allpallets} />
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
 
     {/* <App/>  */}
     {/* <Allpallets/> */}
