@@ -6,7 +6,7 @@ const useStyles = makeStyles({
         width:"100%" , 
         display:"flex", 
         alignItems:"center", 
-        justifyContent:"space-around", 
+        justifyContent:"flex-start", 
 
     } , 
     outerContainer:{
@@ -14,15 +14,21 @@ const useStyles = makeStyles({
         padding:10 , 
         textAlign:"center" , 
         verticalAlign:"middle",
-        "min-height":180, 
+        "min-height":195,
+        display:"flex" , 
+        alignItems:"center", 
+        justifyContent:"space-between" ,
+        flexDirection:"column" , 
+        marginRight:"3%",
     }, 
     smallContainer: {
         width:140,  
         display:"flex" , 
         flexWrap:"wrap" ,
-        "min-height":85, 
+        height:100, 
         border:"1px solid #180773",
         padding:5, 
+        "overflow-y":"scroll" , 
 
     }, 
     btnContainer:{
@@ -53,9 +59,9 @@ export default function Allpallets (props) {
     const styles = useStyles(props);
     const [allPallets , setAllPallets] = React.useState(JSON.parse(window.localStorage.getItem("pallets")) || []); 
 
-    // React.useEffect(()=>{
-    //     window.localStorage.setItem("pallets" , JSON.stringify(allPallets));
-    // } , [allPallets]);
+    React.useEffect(()=>{
+        window.localStorage.setItem("pallets" , JSON.stringify(allPallets));
+    } , [allPallets]);
 
     const deletePallete = (e)=>{
         console.log("works");

@@ -16,6 +16,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 // import ColorPicker from "./components/ColorPicker";   classbased component same with CP.js
 import CP from "./components/CP";
 import Alert from '@mui/material/Alert';
+import {Link} from "react-router-dom" ; 
 
 
 const drawerWidth = 340;
@@ -95,13 +96,10 @@ const useStyles = makeStyles((theme) => ({
     const[saveInp , setSaveInp]= React.useState("");
     const[pallets , setPallets]= React.useState([]);
 
-    React.useEffect(()=>{
-      
+    React.useEffect(()=>{ 
       window.localStorage.setItem("colors" , JSON.stringify(colors));
       window.localStorage.setItem("cubnames" , JSON.stringify(cubnames));
-      window.localStorage.setItem("pallets" , JSON.stringify(pallets));
-
-
+      window.localStorage.setItem("pallets", JSON.stringify(pallets));
     }, [colors], [pallets]); 
 
     const handleDrawerOpen = () => {
@@ -245,13 +243,13 @@ const useStyles = makeStyles((theme) => ({
               style={{marginLeft:10,padding:7.5}}
             >Save Pallete</Button>
 
-            <Button 
+            <Link to="/allPallets"> <Button 
               // onClick={savePalleteButtonClick} 
               variant = "contained"
               color = "primary" 
               size= "small"
               style={{marginLeft:10,padding:7.5}}
-            >All Palletes</Button>
+            >All Palletes</Button></Link>
           </div>
         </Toolbar>
       </AppBar>

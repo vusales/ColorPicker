@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from "./App";
 import Allpallets from "./components/Allpallets"; 
+import {BrowserRouter , Route, Switch } from "react-router-dom" ; 
+
 
 
 // allpalletsde silende refresh olmamis silinmir.ona bir bax , 
@@ -14,8 +16,16 @@ import Allpallets from "./components/Allpallets";
  
 ReactDOM.render(
   <React.StrictMode>
-    <App/> 
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={App} />
+        <Route exact path="/allPallets" component={Allpallets} />
+      </Switch>
+    </BrowserRouter>
+
+    {/* <App/>  */}
     {/* <Allpallets/> */}
+
   </React.StrictMode>,
   document.getElementById('root')
 );
