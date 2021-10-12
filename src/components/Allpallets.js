@@ -1,42 +1,44 @@
 import React  from "react";
 import { makeStyles} from '@material-ui/core';
 import { Container , Box  }  from '@material-ui/core/';
+import {  NavLink } from "react-router-dom";
 const useStyles = makeStyles({
     container: {
         width:"100%" , 
         display:"flex", 
         alignItems:"center", 
-        justifyContent:"flex-start", 
+        justifyContent:"center", 
         flexWrap:"wrap",
-
     } , 
     outerContainer:{
-        border:"1px solid #180773",
-        padding:10 , 
+        border:"2px solid #180773",
+        padding:10, 
         textAlign:"center" , 
-        verticalAlign:"middle",
-        "min-height":195,
+        height:"250px",
+        width:"190px",
         display:"flex" , 
         alignItems:"center", 
-        justifyContent:"space-between" ,
+        justifyContent:"center" ,
         flexDirection:"column" , 
-        margin:"2%",  
+        margin:"1%", 
+        "& h3":{
+            wordBreak:"break-word",
+        }
     }, 
     smallContainer: {
-        width:140,  
+        width:"90%",  
         display:"flex" , 
         flexWrap:"wrap" ,
-        height:100, 
-        border:"1px solid #180773",
+        height:140, 
+        border:"1.5px solid #180773",
         padding:5, 
-        "overflow-y":"scroll" , 
-        
+        "overflow-y":"scroll" ,   
     }, 
     btnContainer:{
         width:"100%" , 
         display:"flex", 
         alignItems:"center", 
-        justifyContent:"flex-end", 
+        justifyContent:"space-between", 
         "& button":{
             border:"none", 
             outline:"none" , 
@@ -50,16 +52,23 @@ const useStyles = makeStyles({
     infoP:{
         color: "gray" , 
         fontWeight:"bold" , 
+    }, 
+    moreP: {
+        color: "black", 
+        fontSize: 30, 
+        textDecoration:"none",
+        paddingBottom:14, 
     }
 
-}) ;
+});
 
 export default function Allpallets (props) {
     const styles = useStyles(props);
     const [allPallets , setAllPallets] = React.useState(JSON.parse(window.localStorage.getItem("pallets")) || []); 
 
     React.useEffect(()=>{
-        window.localStorage.setItem("pallets", JSON.stringify(allPallets));
+        var val = JSON.parse(window.localStorage.getItem("pallets"))
+        setAllPallets(val); 
     }, [allPallets]);
 
     const deletePallete = (e)=>{
@@ -108,8 +117,9 @@ export default function Allpallets (props) {
     
                                         </div>
     
-                                    <h2>{pallete.palleteName}</h2> 
+                                    <h3>{pallete.palleteName}</h3> 
                                     <div className={styles.btnContainer} >
+                                        <NavLink className={styles.moreP} to={`/Pallets/${index}`}>⢰</NavLink>
                                         <button 
                                         value={index}
                                         onClick={deletePallete}

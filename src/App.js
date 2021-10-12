@@ -158,6 +158,10 @@ const useStyles = makeStyles((theme) => ({
       var colorsArray = JSON.parse(window.localStorage.getItem("colors"));
       var cubNamesArray =  JSON.parse(window.localStorage.getItem("cubnames"));
       var palleteName = saveInp ; 
+      if(saveInp.trim() === ""){
+        alert("Please, add pallete name!")
+        return;
+      }
       var pallete = {
         colorsArray , 
         cubNamesArray , 
@@ -176,8 +180,6 @@ const useStyles = makeStyles((theme) => ({
     }
 
     var deleteCubes = (e) => {
-
-      console.log(e.target.value)
       if(e.target.value === null ){
        return
       }
@@ -188,7 +190,7 @@ const useStyles = makeStyles((theme) => ({
 
     var CopyColor = (e) => {
       navigator.clipboard.writeText(e.target.value).then(function(){
-        // console.log('Async: Copying to clipboard was successful!');
+        // alert('Copying to clipboard was successful!');
        return(
         <Alert variant="outlined" severity="success">
           Color code has been copied!
@@ -226,7 +228,7 @@ const useStyles = makeStyles((theme) => ({
           className={classes.saveDiv}
           >
             <TextField 
-            variant="outlined" 
+              variant="outlined" 
               label="Enter a pallete name"
               size="small"
               value={saveInp}
@@ -343,15 +345,6 @@ const useStyles = makeStyles((theme) => ({
                   >
                         <div >{color}</div>
 
-                        {/* <Button
-                        onClick={deleteCubes}
-                        // color="secondary"
-                        variant="outlined"
-                        size="small"
-                        style={{fontSize:15}}
-                        >	⛌ </Button> */}
-
-
                         <button
                         onClick={deleteCubes}
                         value={color}
@@ -370,8 +363,6 @@ const useStyles = makeStyles((theme) => ({
                         </button>
 
                   </div>
-
-
                   <div
                    style={{
                    "width":75, 
@@ -401,9 +392,6 @@ const useStyles = makeStyles((theme) => ({
                         copy
                         </button>
                   </div>
-
-
-
                 </div>
               );
            }):
