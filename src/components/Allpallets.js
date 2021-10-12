@@ -26,12 +26,12 @@ const useStyles = makeStyles({
         }
     }, 
     smallContainer: {
-        width:"90%",  
+        // width:"90%",  
         display:"flex" , 
         flexWrap:"wrap" ,
         height:140, 
-        border:"1.5px solid #180773",
-        padding:5, 
+        // border:"1.5px solid #180773",
+        // padding:5, 
         "overflow-y":"scroll" ,   
     }, 
     btnContainer:{
