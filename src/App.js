@@ -94,13 +94,13 @@ const useStyles = makeStyles((theme) => ({
     const [cubnames, setName] = React.useState(JSON.parse(localStorage.getItem("cubnames")) || []);
     const [randomVal, setRandomVal] = React.useState(false); 
     const[saveInp , setSaveInp]= React.useState("");
-    const[pallets , setPallets]= React.useState([]);
+    const[pallets , setPallets]= React.useState(JSON.parse(window.localStorage.getItem("pallets")) || []);
 
     React.useEffect(()=>{ 
       window.localStorage.setItem("colors" , JSON.stringify(colors));
       window.localStorage.setItem("cubnames" , JSON.stringify(cubnames));
       window.localStorage.setItem("pallets", JSON.stringify(pallets));
-    }, [colors], [pallets]); 
+    }, [colors] , [pallets]); 
 
     const handleDrawerOpen = () => {
       setOpen(true);
@@ -125,6 +125,7 @@ const useStyles = makeStyles((theme) => ({
 
     const ClearePal = () => {
       setColor([]);
+      setName([]);
       window.localStorage.removeItem("colors");
       window.localStorage.removeItem("cubnames");
 
@@ -162,13 +163,9 @@ const useStyles = makeStyles((theme) => ({
         cubNamesArray , 
         palleteName
       }
-      console.log("pallets", pallets) ; 
       var PalletsArray = pallets ;
       var result = PalletsArray.concat(pallete); 
       setPallets(result);
-      console.log("pallets22", pallets) ; 
-      console.log("PalletsArray", PalletsArray) ; 
-
 
       window.localStorage.setItem("pallets", JSON.stringify(pallets));
       window.localStorage.removeItem("colors");

@@ -7,6 +7,7 @@ const useStyles = makeStyles({
         display:"flex", 
         alignItems:"center", 
         justifyContent:"flex-start", 
+        flexWrap:"wrap",
 
     } , 
     outerContainer:{
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
         alignItems:"center", 
         justifyContent:"space-between" ,
         flexDirection:"column" , 
-        marginRight:"3%",
+        margin:"2%",  
     }, 
     smallContainer: {
         width:140,  
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
         border:"1px solid #180773",
         padding:5, 
         "overflow-y":"scroll" , 
-
+        
     }, 
     btnContainer:{
         width:"100%" , 
@@ -44,8 +45,6 @@ const useStyles = makeStyles({
             fontSize:13, 
             fontWeight:"bold", 
             padding:5,
-            
-
        }
     }, 
     infoP:{
@@ -60,8 +59,8 @@ export default function Allpallets (props) {
     const [allPallets , setAllPallets] = React.useState(JSON.parse(window.localStorage.getItem("pallets")) || []); 
 
     React.useEffect(()=>{
-        window.localStorage.setItem("pallets" , JSON.stringify(allPallets));
-    } , [allPallets]);
+        window.localStorage.setItem("pallets", JSON.stringify(allPallets));
+    }, [allPallets]);
 
     const deletePallete = (e)=>{
         console.log("works");
@@ -72,13 +71,12 @@ export default function Allpallets (props) {
             }
         }
         setAllPallets(arr);
-        window.localStorage.setItem("pallets" , JSON.stringify(allPallets));
+        window.localStorage.setItem("pallets", JSON.stringify(arr));
     }
 
     return(
         <React.Fragment>
             <Container>
-
                 {
                     allPallets[0]? 
                     <Box  sx={{ 
